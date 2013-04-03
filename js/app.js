@@ -71,21 +71,31 @@ function generateFontList() {
 
 
 function loadFont(data) {
-    var link = $("<link>");
-    link.attr({
-        type: 'text/css',
-        rel: 'stylesheet',
-        href: 'http://fonts.googleapis.com/css?family=' + data
-    });
-    $("head").append(link);
+    // var link = $("<link>");
+    // link.attr({
+    //     type: 'text/css',
+    //     rel: 'stylesheet',
+    //     href: 'http://fonts.googleapis.com/css?family=' + data
+    // });
+    // $("head").append(link);
     }
+
+function loadFont(data) {
+    WebFont.load({
+        google: {
+            families: data
+        }
+    });
+    }
+
 
 // check if font has already been loaded, if not load & add to loaded array
 function checkIsLoaded(fontName) {
 
         if (loadedFonts.indexOf(fontName) === -1) {
             loadedFonts.push(fontName);
-            loadFont(fontName);
+            var tempArray = [fontName];
+            loadFont(tempArray);
         }
 }
 
@@ -94,6 +104,7 @@ function checkIsLoaded(fontName) {
 $(document).ready(function() {
     content = $('#content');
     generateFontList();
+
 
 //Events
 
