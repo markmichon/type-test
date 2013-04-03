@@ -1,5 +1,6 @@
 var api = "AIzaSyAbXMOmMjcXU2VkDjjYWYvRPMDyVYF8t_Q";
 var apiUrl = "https://www.googleapis.com/webfonts/v1/webfonts?key=" + api;
+var systemFonts = ['Times', 'Helvetica Neue', 'Helvetica', 'Georgia'];
 var loadedFonts = [];
 //make .css() return current css of element
 jQuery.fn.css2 = jQuery.fn.css;
@@ -25,6 +26,37 @@ jQuery.fn.css = function() {
     return obj;
 };
 
+var fonts = {
+    system: {
+        families: []
+    },
+    google: {
+        families: []
+    },
+    typekit: {
+        families: []
+    }
+};
+
+function TextBlock() {
+    this.elemType = 'h1';
+    this.elemFontSize = '';
+    this.elemFontFamily = 'Helvetica Neue, Helvetica, Arial, sans-serif';
+    this.elemFontWeight = '';
+    this.elemLineHeight = '';
+    this.elemMarginBottom = '';
+    this.elemMarginTop = '';
+    this.elemFontStyle = '';
+    this.elemTextAlign = '';
+}
+
+function compileFonts() {
+    var google = getGoogleFonts();
+    fonts.system.families = systemFonts;
+    fonts.google.families = google;
+    //Typekit TBD
+}
+
 // Get Google Webfonts
 
 function getGoogleFonts() {
@@ -46,12 +78,17 @@ function getGoogleFonts() {
 
 // Combine all Fonts into single Array, write select list
 function generateFontList() {
-    google = getGoogleFonts();
-    var fontArray = ['Times', 'Helvetica Neue', 'Helvetica', 'Georgia'];
-    fontArray = fontArray.concat(google);
+    var fontList = [];
+    for (var val in fonts) {
+        // console.log(fonts[val]);
+        for (var fam in fonts[val]) {
+            fontList = fontList.concat(fonts[val][fam]);
+        }
+    }
+    // console.log(fontList);
     var select = "";
-    for (var val in fontArray) {
-        select += '<option value="' + fontArray[val] + '">' + fontArray[val] + '</option>';
+    for (val in fontList) {
+        select += '<option value="' + fontList[val] + '">' + fontList[val] + '</option>';
     }
     $('#font-list').append(select);
 
@@ -69,23 +106,16 @@ function generateFontList() {
         }
     }
 
-
 function loadFont(data) {
-    // var link = $("<link>");
-    // link.attr({
-    //     type: 'text/css',
-    //     rel: 'stylesheet',
-    //     href: 'http://fonts.googleapis.com/css?family=' + data
-    // });
-    // $("head").append(link);
-    }
-
-function loadFont(data) {
-    WebFont.load({
-        google: {
-            families: data
+    for (var x in fonts.google.families) {
+        if (data === fonts.google.families[x])
+        {
+            tempArray = [data];
+            WebFont.load({
+                google: {families: tempArray}
+            });
         }
-    });
+    }
     }
 
 
@@ -94,8 +124,7 @@ function checkIsLoaded(fontName) {
 
         if (loadedFonts.indexOf(fontName) === -1) {
             loadedFonts.push(fontName);
-            var tempArray = [fontName];
-            loadFont(tempArray);
+            loadFont(fontName);
         }
 }
 
@@ -103,6 +132,7 @@ function checkIsLoaded(fontName) {
 
 $(document).ready(function() {
     content = $('#content');
+    compileFonts();
     generateFontList();
 
 
