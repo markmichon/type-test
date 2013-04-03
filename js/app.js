@@ -1,6 +1,6 @@
 var api = "AIzaSyAbXMOmMjcXU2VkDjjYWYvRPMDyVYF8t_Q";
 var apiUrl = "https://www.googleapis.com/webfonts/v1/webfonts?key=" + api;
-
+var loadedFonts = [];
 //make .css() return current css of element
 jQuery.fn.css2 = jQuery.fn.css;
 jQuery.fn.css = function() {
@@ -26,11 +26,13 @@ jQuery.fn.css = function() {
 };
 
 // Get Google Webfonts
+
 function getGoogleFonts() {
     var output = [];
     $.ajax({
         dataType: 'json',
-        url: apiUrl,
+        // url: apiUrl,
+        url: '../google.json',
         async: false,
         success: function(fonts) {
             $.each(fonts.items, function(key,val){
@@ -67,10 +69,8 @@ function generateFontList() {
         }
     }
 
-$(document).ready(function() {
-    content = $('#content');
-    generateFontList();
-    function loadFont(data) {
+
+function loadFont(data) {
     var link = $("<link>");
     link.attr({
         type: 'text/css',
@@ -79,6 +79,21 @@ $(document).ready(function() {
     });
     $("head").append(link);
     }
+
+// check if font has already been loaded, if not load & add to loaded array
+function checkIsLoaded(fontName) {
+
+        if (loadedFonts.indexOf(fontName) === -1) {
+            loadedFonts.push(fontName);
+            loadFont(fontName);
+        }
+}
+
+
+
+$(document).ready(function() {
+    content = $('#content');
+    generateFontList();
 
 //Events
 
@@ -94,7 +109,7 @@ target = $('#content').children().first(); // set default target
 //Font-Family
     $('body').on("change", "#font-list", function(){
        family = $(this).val();
-        loadFont(family); //load family
+        checkIsLoaded(family); //load family
         $(target).css({
             'fontFamily' : family
         });
