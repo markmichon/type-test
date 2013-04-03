@@ -25,20 +25,51 @@ jQuery.fn.css = function() {
     return obj;
 };
 
-
-$.getJSON(apiUrl, function(fonts){
-    var output;
-    $.each(fonts.items, function(key,val){
-       output += "<option value='" + val.family +"'>" + val.family + "</option>";
+// Get Google Webfonts
+function getGoogleFonts() {
+    var output = [];
+    $.ajax({
+        dataType: 'json',
+        url: apiUrl,
+        async: false,
+        success: function(fonts) {
+            $.each(fonts.items, function(key,val){
+            // console.log(val['family']);
+            output.push(val['family']);
+            });
+        }
     });
-    $('#font-list').append(output);
+    return output;
+}
 
-});
+// Combine all Fonts into single Array, write select list
+function generateFontList() {
+    google = getGoogleFonts();
+    var fontArray = ['Times', 'Helvetica Neue', 'Helvetica', 'Georgia'];
+    fontArray = fontArray.concat(google);
+    var select = "";
+    for (var val in fontArray) {
+        select += '<option value="' + fontArray[val] + '">' + fontArray[val] + '</option>';
+    }
+    $('#font-list').append(select);
 
-$(function() {
-// setInterval(function() { ObserveInputValue($('input').val()); }, 100);
+}
 
-    // var target = $('#content h2');
+//Set fields to match current element
+
+    function setConfig(element) {
+        elemStyles = element.css();
+        controls = $('#controls > [data-style]');
+        for (var i=0; i <= controls.length-1; i++) {
+            dataValue = $(controls[i]).data('style');
+            cleanValue = elemStyles[dataValue].replace(/'/g, "");
+            $(controls[i]).val(cleanValue);
+        }
+    }
+
+$(document).ready(function() {
+    content = $('#content');
+    generateFontList();
     function loadFont(data) {
     var link = $("<link>");
     link.attr({
@@ -49,24 +80,12 @@ $(function() {
     $("head").append(link);
     }
 
-//Set fields
-
-    function setConfig(element) {
-        elemStyles = element.css();
-        console.log(elemStyles['font-family']);
-        controls = $('#controls > *');
-        for (var i=0; i <= controls.length-1; i++) {
-            dataValue = $(controls[i]).data('font');
-            cleanValue = elemStyles[dataValue].replace(/'/g, "");
-            $(controls[i]).val(cleanValue);
-        }
-    }
-
 //Events
-target = $('#content').children().first();
+
+target = $('#content').children().first(); // set default target
 //Get Target
 
-    $('#content').children().on('click', function() {
+    $('#content').on('click','h1, h2, h3, h4, h5, p' ,function() {
         target = $(this);
         // console.log(target.css());
         setConfig(target);
@@ -82,16 +101,19 @@ target = $('#content').children().first();
     });
 //property change
     $('body').on('keyup', 'input', function() {
-        property = $(this).data('font');
+        property = $(this).data('style');
         value = $(this).val();
         $(target).css(property, value);
     });
 
+//New Paragraph
 
-// //font-weight
-//     $('body').on('keyup', '#font-weight', function() {
-//         fontSize = $(this).val();
-//         $(target).css('fontWeight', fontSize);
-//     });
+    $('#js-newElement').on('click', function(e){
+        e.preventDefault();
+        var element = $('<p contenteditable>');
+        element.text('Enter some Text');
+        content.append(element);
+    });
+
 
 }); //end

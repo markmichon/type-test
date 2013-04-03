@@ -11,12 +11,14 @@
 </head>
 <body>
   <div id="controls">
-    <select data-font="font-family" name="fonts" id="font-list">
+    <a href="#" id="js-newElement">New Paragraph</a>
+    <select data-style="font-family" name="fonts" id="font-list">
       <option val="empty">Select a Typeface</option>
     </select>
-    <input data-font="font-size" type="text" name="font-size" id="font-size" placeholder="Enter Font Size">
-    <input data-font="font-weight" type="text" name="font-size" id="font-weight" placeholder="Font Weight">
-    <input data-font="line-height" type="text" name="line-height" id="line-height" placeholder="Line Height">
+    Size:<input data-style="font-size" type="text" name="font-size" id="font-size" placeholder="Enter Font Size">
+    Weight:<input data-style="font-weight" type="text" name="font-size" id="font-weight" placeholder="Font Weight">
+    Line Height:<input data-style="line-height" type="text" name="line-height" id="line-height" placeholder="Line Height">
+    Margin-bottom: <input data-style="margin-bottom" type="text" name="" id="">
   </div>
   <div id="content">
     <h2 contenteditable>Type changing demo</h2>
