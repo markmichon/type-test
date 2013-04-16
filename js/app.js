@@ -2,6 +2,8 @@ var api = "AIzaSyAbXMOmMjcXU2VkDjjYWYvRPMDyVYF8t_Q";
 var apiUrl = "https://www.googleapis.com/webfonts/v1/webfonts?key=" + api;
 var systemFonts = ['Times', 'Helvetica Neue', 'Helvetica', 'Georgia'];
 var loadedFonts = [];
+var elements = [];
+
 //make .css() return current css of element
 jQuery.fn.css2 = jQuery.fn.css;
 jQuery.fn.css = function() {
@@ -39,16 +41,39 @@ var fonts = {
 };
 
 function TextBlock() {
-    this.elemType = 'h1';
-    this.elemFontSize = '';
-    this.elemFontFamily = 'Helvetica Neue, Helvetica, Arial, sans-serif';
-    this.elemFontWeight = '';
-    this.elemLineHeight = '';
-    this.elemMarginBottom = '';
-    this.elemMarginTop = '';
-    this.elemFontStyle = '';
-    this.elemTextAlign = '';
+    var $el = this;
+        this.elemStyles = {
+            elemType : 'h1',
+            elemFontSize : '',
+            elemFontFamily : 'Helvetica Neue, Helvetica, Arial, sans-serif',
+            elemFontWeight : '',
+            elemLineHeight : '',
+            elemMarginBottom : '',
+            elemMarginTop : '',
+            elemFontStyle : '',
+            elemTextAlign : ''
+
+        };
+
+    this.createElement = function() {
+        $elementList.append(this);
+    };
+
+    this.setStyles = function(target) {
+        $(target).css({
+            fontSize: this.elemStyles.elemFontSize,
+            fontFamily: this.elemStyles.elemFontFamily,
+            fontWeight: this.elemStyles.elemFontWeight,
+            lineHeight: this.elemStyles.elemLineHeight,
+            marginBottom: this.elemStyles.elemMarginBottom,
+            marginTop: this.elemStyles.elemMarginTop,
+            fontStyle: this.elemStyles.elemFontStyle,
+            textAlign: this.elemStyles.elemTextAlign
+        });
+    };
+
 }
+var header1 = new TextBlock();
 
 function compileFonts() {
     var google = getGoogleFonts();
