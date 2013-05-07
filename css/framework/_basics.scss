@@ -34,7 +34,7 @@ ul {list-style-type: disc;}
 a { color: $primary; text-decoration: none; outline: 0; border-bottom: 1px solid transparent; @include vendor(transition, all .2s ease-in-out);}
   a:hover, a:focus { color: $primary; }
 
-p a:hover {border-bottom: 1px solid $dark-green;}
+p a:hover {border-bottom: 1px solid $primary;}
 
 blockquote {
   margin-bottom: $base-spacing-unit;

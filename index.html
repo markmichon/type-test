@@ -6,21 +6,48 @@
 <meta name="description" content="">
 <meta name="author" content="Mark Michon">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <link rel="stylesheet" href="css/main.css"> -->
+<link rel="stylesheet" href="css/main.css">
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
+  <nav>
+    <ul class="toolbar">
+      <li><a href="" data-link="fonts" class="toolbar-item"><i class="icon-font"></i></a></li>
+      <li><a href="" data-link="settings" class="toolbar-item"><i class="icon-edit"></i><a/></li>
+      <li><a href="" class="toolbar-item"><i class="icon-heart"></i></a></li>
+    </ul>
+  </nav>
+  <div id="fonts" class="panel">
+    <div class="search-box">
+      <input type="text" name="" id="" placeholder="Search Fonts">
+    </div>
+    <div class="panel-options">
+      <ul class="font-list">
+
+      </ul>
+    </div>
+  </div>
+
+  <div id="settings" class="panel">
+    <h2 class="panel-title">Type Settings</h2>
   <div id="controls">
+
+    <div class="control-group">
+      <label for="font-size">Font Size</label>
+      <input data-style="font-size" type="text" name="font-size" id="font-size" placeholder="Enter Font Size">
+    </div>
     <a href="#" id="js-newElement">New Paragraph</a>
-    <select data-style="font-family" name="fonts" id="font-list">
+    <!-- <select data-style="font-family" name="fonts" id="font-list">
       <option val="empty">Select a Typeface</option>
-    </select>
+    </select> -->
     Size:<input data-style="font-size" type="text" name="font-size" id="font-size" placeholder="Enter Font Size">
     Weight:<input data-style="font-weight" type="text" name="font-size" id="font-weight" placeholder="Font Weight">
     Line Height:<input data-style="line-height" type="text" name="line-height" id="line-height" placeholder="Line Height">
     Margin-bottom: <input data-style="margin-bottom" type="text" name="" id="">
   </div>
-  <div id="content">
+  </div>
+
+  <div id="content" class="page-block">
     <h2 contenteditable>Type changing demo</h2>
     <p contenteditable>Lorem ipsum dolor sit amet, consectetur adipi*sicing elit, sed do eiusmod t*empor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   </div>

@@ -113,9 +113,11 @@ function generateFontList() {
     // console.log(fontList);
     var select = "";
     for (val in fontList) {
-        select += '<option value="' + fontList[val] + '">' + fontList[val] + '</option>';
+        // select += '<option value="' + fontList[val] + '">' + fontList[val] + '</option>';
+        select += '<li data-font="' + fontList[val] + '">' + fontList[val] + '</li>';
+
     }
-    $('#font-list').append(select);
+    $('.font-list').append(select);
 
 }
 
@@ -173,8 +175,8 @@ target = $('#content').children().first(); // set default target
     });
 
 //Font-Family
-    $('body').on("change", "#font-list", function(){
-       family = $(this).val();
+    $('.font-list').on("click", "li", function(){
+       family = $(this).data('font');
         checkIsLoaded(family); //load family
         $(target).css({
             'fontFamily' : family
@@ -196,5 +198,25 @@ target = $('#content').children().first(); // set default target
         content.append(element);
     });
 
+
+
+//Panel Actions
+$fontPanel = $('#fonts');
+$settingsPanel = $('#settings');
+
+$('.toolbar a').on('click', function(e){
+    e.preventDefault();
+    switch ($(this).data('link')) {
+        case 'fonts':
+        $fontPanel.addClass('activePanel');
+        $settingsPanel.removeClass('activePanel');
+        break;
+
+        case 'settings':
+        $fontPanel.removeClass('activePanel');
+        $settingsPanel.addClass('activePanel');
+        break;
+    }
+});
 
 }); //end
